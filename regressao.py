@@ -1,3 +1,5 @@
+print("Guilherme dos Santos")
+
 import numpy as np
 
 def f_true(x):
