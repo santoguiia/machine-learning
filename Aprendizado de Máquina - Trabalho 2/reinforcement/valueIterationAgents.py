@@ -59,12 +59,16 @@ class ValueIterationAgent(ValueEstimationAgent):
         self.values = util.Counter() # A Counter is a dict with default 0
         self.runValueIteration()
 
-    def runValueIteration(self):
+
+    def runValueIteration(self): ################################################
+        
         for _ in range(self.iterations):
             valuesCopy = self.values.copy()
             for state in self.mdp.getStates():
-                if self.mdp.isTerminal(state): continue
-                actionValues = [self.computeQValueFromValues(state, action) for action in self.mdp.getPossibleActions(state)]
+                if self.mdp.isTerminal(state):
+                    continue
+                for action in self.mdp.getPossibleActions(state):
+               # actionValues = [self.computeQValueFromValues(state, action) for action in self.mdp.getPossibleActions(state)]
                 valuesCopy[state] = max(actionValues)
             self.values = valuesCopy
 
@@ -76,7 +80,7 @@ class ValueIterationAgent(ValueEstimationAgent):
         return self.values[state]
 
 
-    def computeQValueFromValues(self, state, action):
+    def computeQValueFromValues(self, state, action): ################################################
         """
           Compute the Q-value of action in state from the
           value function stored in self.values.
@@ -86,7 +90,7 @@ class ValueIterationAgent(ValueEstimationAgent):
             qValue += prob * (self.mdp.getReward(state, action, nextState) + self.discount * self.values[nextState])
         return qValue
 
-    def computeActionFromValues(self, state):
+    def computeActionFromValues(self, state): ################################################
         """
           The policy is the best action in the given state
           according to the values currently stored in self.values.
@@ -136,7 +140,7 @@ class AsynchronousValueIterationAgent(ValueIterationAgent):
         """
         ValueIterationAgent.__init__(self, mdp, discount, iterations)
 
-    def runValueIteration(self):
+    def runValueIteration(self): ################################################
         states = self.mdp.getStates()
         for i in range(self.iterations):
             state = states[i % len(states)]
@@ -161,7 +165,7 @@ class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
         self.theta = theta
         ValueIterationAgent.__init__(self, mdp, discount, iterations)
 
-    def runValueIteration(self):
+    def runValueIteration(self): ################################################
         predecessors = {state: set() for state in self.mdp.getStates()}
         for state in self.mdp.getStates():
             for action in self.mdp.getPossibleActions(state):

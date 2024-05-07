@@ -38,12 +38,12 @@ class QLearningAgent(ReinforcementAgent):
         - self.getLegalActions(state)
           which returns legal actions for a state
     """
-    def __init__(self, **args):
+    def __init__(self, **args): ################################################
         "You can initialize Q-values here..."
         ReinforcementAgent.__init__(self, **args)
         self.qValues = util.Counter()  # Inicializa os Q-values
 
-    def getQValue(self, state, action):
+    def getQValue(self, state, action): ################################################
         """
           Returns Q(state,action)
           Should return 0.0 if we have never seen a state
@@ -52,7 +52,7 @@ class QLearningAgent(ReinforcementAgent):
         return self.qValues[(state, action)]  # Retorna o Q-value para o estado e ação dados
 
 
-    def computeValueFromQValues(self, state):
+    def computeValueFromQValues(self, state): ################################################
         """
           Returns max_action Q(state,action)
           where the max is over legal actions.  Note that if
@@ -64,7 +64,7 @@ class QLearningAgent(ReinforcementAgent):
             return 0.0
         return max(self.getQValue(state, action) for action in legalActions)  # Retorna o maior Q-value para um dado estado
 
-    def computeActionFromQValues(self, state):
+    def computeActionFromQValues(self, state): ################################################
         """
           Compute the best action to take in a state.  Note that if there
           are no legal actions, which is the case at the terminal state,
@@ -75,7 +75,7 @@ class QLearningAgent(ReinforcementAgent):
             return None
         return max(legalActions, key=lambda action: self.getQValue(state, action))  # Retorna a ação que tem o maior Q-value para um dado estado
 
-    def getAction(self, state):
+    def getAction(self, state): ################################################
         """
           Compute the action to take in the current state.  With
           probability self.epsilon, we should take a random action and
@@ -92,7 +92,7 @@ class QLearningAgent(ReinforcementAgent):
             return random.choice(legalActions)  # Escolhe uma ação aleatória com probabilidade epsilon
         return self.computeActionFromQValues(state)  # Escolhe a melhor ação com probabilidade 1 - epsilon
 
-    def update(self, state, action, nextState, reward):
+    def update(self, state, action, nextState, reward): ################################################
         """
           The parent class calls this to observe a
           state = action => nextState and reward transition.
@@ -159,7 +159,7 @@ class ApproximateQAgent(PacmanQAgent):
     def getWeights(self):
         return self.weights
 
-    def getQValue(self, state, action):
+    def getQValue(self, state, action): ################################################
         """
           Should return Q(state,action) = w * featureVector
           where * is the dotProduct operator
@@ -167,7 +167,7 @@ class ApproximateQAgent(PacmanQAgent):
         features = self.featExtractor.getFeatures(state, action)
         return sum(self.weights[feature] * value for feature, value in features.items())
 
-    def update(self, state, action, nextState, reward):
+    def update(self, state, action, nextState, reward): ################################################
         """
            Should update your weights based on transition
         """
@@ -176,7 +176,7 @@ class ApproximateQAgent(PacmanQAgent):
         for feature in features:
             self.weights[feature] += self.alpha * difference * features[feature]
 
-    def final(self, state):
+    def final(self, state): ################################################
         "Called at the end of each game."
         # call the super-class final method
         PacmanQAgent.final(self, state)
